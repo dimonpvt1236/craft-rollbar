@@ -1,7 +1,7 @@
 {
     "name": "enovate/rollbar",
     "description": "Report Craft errors and exceptions to Rollbar.",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "type": "craft-plugin",
     "minimum-stability": "dev",
     "require": {
@@ -15,12 +15,15 @@
         }
     },
     "support": {
-        "email": "mike.pepper@enovate.co.uk"
+        "email": "mike.pepper@enovate.co.uk",
+        "docs": "https://gitlab.enovate.co.uk/craft-3-plugins/rollbar/blob/master/README.md"
     },
     "extra": {
         "handle": "rollbar",
         "name": "Rollbar",
         "developer": "Enovate Design",
-        "developerUrl": "https://www.enovate.co.uk"
+        "developerUrl": "https://www.enovate.co.uk",
+        "downloadUrl": "https://gitlab.enovate.co.uk/craft-3-plugins/rollbar/repository/archive.zip?ref=master",
+        "changelogUrl": "https://gitlab.enovate.co.uk/craft-3-plugins/rollbar/blob/master/README.md"
     }
 }
