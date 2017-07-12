@@ -1,0 +1,35 @@
+{% import '_includes/forms' as forms %}
+
+{% macro configWarning(setting, file) -%}
+    {{ "This is being overridden by the {setting} config setting in <code>config/rollbar.php</code>."|t('app', {
+        setting: '<code>'~setting~'</code>'
+    })|raw }}
+{%- endmacro %}
+
+{% from _self import configWarning %}
+
+{{ forms.textField({
+    first:  true,
+    label:  'Access Token'|t,
+    warning: (configFile['accessToken'] ?? false ? configWarning('accessToken')),
+    name:   'accessToken',
+    value:  settings.accessToken,
+    errors: settings.getErrors('accessToken'),
+}) }}
+
+{{ forms.textField({
+    first:  true,
+    label:  'Client Access Token'|t,
+    name:   'clientAccessToken',
+    warning: (configFile['clientAccessToken'] ?? false ? configWarning('clientAccessToken')),
+    value:  settings.clientAccessToken,
+    errors: settings.getErrors('clientAccessToken'),
+}) }}
+
+<hr>
+
+<div class="buttons">
+    <div id="test" class="btn formsubmit" data-action="rollbar/settings/test">
+        {{ 'Test'|t }}
+    </div>
+</div>
