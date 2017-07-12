@@ -20,6 +20,7 @@ class Settings extends Model
     {
         return [
             [['accessToken', 'clientAccessToken'], 'required'],
+            [['accessToken', 'clientAccessToken'], 'string', 'length' => 32],
         ];
     }
 }
