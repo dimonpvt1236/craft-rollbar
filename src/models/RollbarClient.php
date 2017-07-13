@@ -1,4 +1,5 @@
 <?php
+
 namespace enovate\rollbar\models;
 
 use Craft;
@@ -12,10 +13,7 @@ class RollbarClient extends Model
 {
     public function __construct(array $config = [])
     {
-        $config = array_merge([
-            'access_token' => Plugin::getInstance()->getSettings()->accessToken,
-            'environment'  => UrlHelper::siteUrl(),
-        ], $config);
+        $config = $this->_setConfig($config);
 
         Rollbar::init($config);
 
@@ -25,5 +23,43 @@ class RollbarClient extends Model
     public function log($level, $message, array $extraData = [])
     {
         return Rollbar::log($level, $message, $extraData);
+    }
+
+    private function _setConfig(array $config = [])
+    {
+        $config = array_merge([
+            'access_token' => Plugin::getInstance()->getSettings()->accessToken,
+            'environment'  => UrlHelper::siteUrl(),
+        ], $config);
+
+        $config['person'] = $this->_getPerson();
+
+        return $config;
+    }
+
+    /**
+     * Gets the current user details
+     *
+     * @return array|null
+     */
+    private function _getPerson()
+    {
+        $user = Craft::$app->user->getIdentity();
+
+        if ($user)
+        {
+            $fullName = ($user->getFullName() && $user->getFullName() !== $user->username)
+                ? '('.$user->getFullName().')'
+                : null;
+
+            return [
+                'id'       => $user->id,
+                'email'    => $user->email,
+                'username' => implode(' ', array_filter([
+                    $user->username,
+                    $fullName,
+                ])),
+            ];
+        }
     }
 }
