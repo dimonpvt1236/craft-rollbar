@@ -26,7 +26,16 @@ class Client extends Model
 
     public function shouldReport($exception)
     {
-        $ignoreCodes = ArrayHelper::toArray(Plugin::getInstance()->getSettings()->ignoreHTTPCodes);
+        $plugin      = Plugin::getInstance();
+        /** @var Settings $settings */
+        $settings    = $plugin->getSettings();
+
+        if (!$settings->reporting)
+        {
+            return false;
+        }
+
+        $ignoreCodes = ArrayHelper::toArray($settings->ignoreHTTPCodes);
         $ignoreCodes = array_map('intval', $ignoreCodes);
 
         $status = $this->getExceptionCode($exception);

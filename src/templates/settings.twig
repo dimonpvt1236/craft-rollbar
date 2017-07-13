@@ -1,12 +1,21 @@
 {% import '_includes/forms' as forms %}
 
 {% macro configWarning(setting, file) -%}
-    {{ "This is being set by the {setting} config setting in <code>config/rollbar.php</code>."|t('app', {
+    &nbsp;{{ "This is being set by the {setting} config setting in <code>config/rollbar.php</code>."|t('rollbar', {
         setting: '<code>'~setting~'</code>'
     })|raw }}
 {%- endmacro %}
 
 {% from _self import configWarning %}
+
+{% if not settings.reporting %}
+    <div class="field" style="margin-top:0">
+        <p class="warning">&nbsp;{{ 'Reporting is currently disabled for this environment (<code>{environment}</code>).'|t('rollbar', {
+            environment: settings.environment
+        })|raw }}</p>
+    </div>
+    <hr>
+{% endif %}
 
 {{ forms.textField({
     first:   true,

@@ -30,7 +30,7 @@ class SettingsController extends Controller
         $settings = new Settings();
         $settings->accessToken       = $requestService->getBodyParam('settings.accessToken');
         $settings->clientAccessToken = $requestService->getBodyParam('settings.clientAccessToken');
-        $settings->reportInDevMode   = true;
+        $settings->reporting         = true;
 
         if ($settings->validate())
         {

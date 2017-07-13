@@ -8,7 +8,7 @@ class Settings extends Model
 {
     public $accessToken;
     public $clientAccessToken;
-    public $reportInDevMode;
+    public $reporting;
     public $jsTracking;
     public $captureUnhandledRejections;
     public $enableCspEndpoint;
@@ -17,7 +17,7 @@ class Settings extends Model
 
     public function init()
     {
-        $this->reportInDevMode            = false;
+        $this->reporting                  = true;
         $this->jsTracking                 = true;
         $this->captureUnhandledRejections = false;
         $this->enableCspEndpoint          = false;
@@ -35,7 +35,7 @@ class Settings extends Model
         return [
             [['accessToken', 'clientAccessToken', 'environment'], 'required'],
             [['accessToken', 'clientAccessToken'], 'string', 'length' => 32],
-            [['reportInDevMode', 'jsTracking', 'captureUnhandledRejections', 'enableCspEndpoint'], 'boolean']
+            [['reporting', 'jsTracking', 'captureUnhandledRejections', 'enableCspEndpoint'], 'boolean'],
         ];
     }
 }
