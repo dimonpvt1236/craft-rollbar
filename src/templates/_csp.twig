@@ -1,0 +1,35 @@
+{% extends "_layouts/cp" %}
+
+{% set title = 'Content Security Policy'|t('rollbar') %}
+
+{% if csp['reportOnly'] is defined and csp.reportOnly %}
+    {% set title = title ~ " (Report Only)" %}
+{% endif %}
+
+{% set crumbs = [
+    { label: "Settings"|t('app'), url: url('settings') },
+    { label: "Plugins"|t('app'), url: url('settings/plugins') },
+    { label: "Rollbar"|t('rollbar'), url: url('settings/plugins/rollbar') },
+] %}
+
+{% block content %}
+    <table class="data fullwidth">
+        <thead>
+            <tr>
+                <th scope="col">{{ 'Property'|t('rollbar') }}</th>
+                <th scope="col">{{ 'Value'|t('rollbar') }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for property, value in csp.policies %}
+                {% if value is iterable %}
+                    {% set value = value|join('<br>') %}
+                {% endif %}
+                <tr>
+                    <th data-title="{{ 'Property'|t('rollbar') }}" scope="row">{{ property }}:</th>
+                    <td data-title="{{ 'Value'|t('rollbar') }}"><code>{{ value|raw }}</code></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

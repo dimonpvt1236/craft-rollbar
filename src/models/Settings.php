@@ -11,7 +11,7 @@ class Settings extends Model
     public $reporting;
     public $jsTracking;
     public $captureUnhandledRejections;
-    public $enableCspEndpoint;
+    public $cspEndpoint;
     public $ignoreHTTPCodes;
     public $environment;
 
@@ -20,7 +20,7 @@ class Settings extends Model
         $this->reporting                  = true;
         $this->jsTracking                 = true;
         $this->captureUnhandledRejections = false;
-        $this->enableCspEndpoint          = false;
+        $this->cspEndpoint                = false;
         $this->ignoreHTTPCodes            = '404, 403, 503';
         $this->environment                = UrlHelper::siteUrl();
 
@@ -35,7 +35,7 @@ class Settings extends Model
         return [
             [['accessToken', 'environment'], 'required'],
             [['accessToken', 'clientAccessToken'], 'string', 'length' => 32],
-            [['reporting', 'jsTracking', 'captureUnhandledRejections', 'enableCspEndpoint'], 'boolean'],
+            [['reporting', 'jsTracking', 'captureUnhandledRejections', 'cspEndpoint'], 'boolean'],
         ];
     }
 }

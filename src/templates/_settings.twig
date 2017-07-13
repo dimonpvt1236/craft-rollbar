@@ -37,16 +37,6 @@
     errors:  settings.getErrors('clientAccessToken'),
 }) }}
 
-{{ forms.lightswitchField({
-    label:   'Track JavaScript Errors'|t,
-    disabled: configFile['jsTracking'] is defined,
-    class:   configFile['jsTracking'] is defined and not configFile.jsTracking ? 'disabled',
-    name:    'jsTracking',
-    warning: configFile['jsTracking'] is defined ? configWarning('jsTracking') : null,
-    on:      settings.jsTracking,
-    errors:  settings.getErrors('jsTracking'),
-}) }}
-
 {{ forms.textField({
     label:   'Ignore Error Codes'|t,
     class:   configFile['ignoreHTTPCodes'] ?? false ? 'disabled',
@@ -59,11 +49,34 @@
 {{ forms.textField({
     disabled: true,
     static:   true,
-    label:   'Environment'|t,
-    warning: configFile['environment'] ?? false ? configWarning('environment'),
-    name:    'environment',
-    value:   settings.environment,
-    errors:  settings.getErrors('environment'),
+    label:    'Environment'|t,
+    warning:  configFile['environment'] ?? false ? configWarning('environment'),
+    name:     'environment',
+    value:    settings.environment,
+    errors:   settings.getErrors('environment'),
+}) }}
+
+<hr>
+
+{{ forms.lightswitchField({
+    label:    'Track JavaScript Errors'|t,
+    disabled: configFile['jsTracking'] is defined,
+    class:    configFile['jsTracking'] is defined and not configFile.jsTracking ? 'disabled',
+    name:     'jsTracking',
+    warning:  configFile['jsTracking'] is defined ? configWarning('jsTracking') : null,
+    on:       settings.jsTracking,
+    errors:   settings.getErrors('jsTracking'),
+}) }}
+
+{{ forms.lightswitchField({
+    label:    'Enable CSP Endpoint'|t,
+    instructions: '<a href="{url}">view CSP config</a>.'|t({ url: url('rollbar/csp') })|raw,
+    disabled: configFile['cspEndpoint'] is defined,
+    class:    configFile['cspEndpoint'] is defined and not configFile.cspEndpoint ? 'disabled',
+    name:     'cspEndpoint',
+    warning:  configFile['cspEndpoint'] is defined ? configWarning('cspEndpoint') : null,
+    on:       settings.cspEndpoint,
+    errors:   settings.getErrors('cspEndpoint'),
 }) }}
 
 <hr>

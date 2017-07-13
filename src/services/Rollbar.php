@@ -25,6 +25,11 @@ class Rollbar extends Component
         return $client;
     }
 
+    public function log($level, $message, array $extraData = [])
+    {
+        return $this->getClient()->log($level, $message, $extraData);
+    }
+
     public function shouldReport($exception)
     {
         return $this->getClient()->shouldReport($exception);
@@ -79,8 +84,32 @@ class Rollbar extends Component
         ';
     }
 
-    public function log($level, $message, array $extraData = [])
+    public function setCspHeader()
     {
-        return $this->getClient()->log($level, $message, $extraData);
+        $config = Craft::$app->getConfig()->getConfigFromFile('content-security-policy');
+
+        if (!$policies = $config['policies'])
+        {
+            return [];
+        }
+
+        $reportOnly = (isset($config['reportOnly']) && $config['reportOnly']);
+
+        $csp = [];
+
+        foreach ($policies as $directive => $values)
+        {
+            $csp[] = $directive.' '.implode(' ', $values);
+        }
+
+        $header = "Content-Security-Policy";
+
+        if ($reportOnly)
+        {
+            $header .= "-Report-Only";
+        }
+
+        return Craft::$app->getResponse()->headers->add($header, implode('; ', $csp));
     }
+
 }
