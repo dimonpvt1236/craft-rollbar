@@ -33,7 +33,7 @@ class Settings extends Model
     public function rules()
     {
         return [
-            [['accessToken', 'clientAccessToken', 'environment'], 'required'],
+            [['accessToken', 'environment'], 'required'],
             [['accessToken', 'clientAccessToken'], 'string', 'length' => 32],
             [['reporting', 'jsTracking', 'captureUnhandledRejections', 'enableCspEndpoint'], 'boolean'],
         ];

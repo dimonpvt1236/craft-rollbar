@@ -24,17 +24,27 @@
     warning: configFile['accessToken'] ?? false ? configWarning('accessToken'),
     name:    'accessToken',
     value:   settings.accessToken,
+    required: true,
     errors:  settings.getErrors('accessToken'),
 }) }}
 
 {{ forms.textField({
-    first:   true,
     label:   'Client Access Token'|t,
     class:   configFile['clientAccessToken'] ?? false ? 'disabled',
     name:    'clientAccessToken',
     warning: configFile['clientAccessToken'] ?? false ? configWarning('clientAccessToken'),
     value:   settings.clientAccessToken,
     errors:  settings.getErrors('clientAccessToken'),
+}) }}
+
+{{ forms.lightswitchField({
+    label:   'Track JavaScript Errors'|t,
+    disabled: configFile['jsTracking'] is defined,
+    class:   configFile['jsTracking'] is defined and not configFile.jsTracking ? 'disabled',
+    name:    'jsTracking',
+    warning: configFile['jsTracking'] is defined ? configWarning('jsTracking') : null,
+    on:      settings.jsTracking,
+    errors:  settings.getErrors('jsTracking'),
 }) }}
 
 {{ forms.textField({

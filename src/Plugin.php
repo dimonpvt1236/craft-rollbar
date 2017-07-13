@@ -1,12 +1,15 @@
 <?php
 namespace enovate\rollbar;
 
-use enovate\rollbar\services\Rollbar as RollbarService;
 use Craft;
+use craft\events\DefineComponentsEvent;
 use craft\events\ExceptionEvent;
 use craft\web\ErrorHandler;
-use yii\base\Event;
+use craft\web\twig\variables\CraftVariable;
+use enovate\rollbar\services\Rollbar as RollbarService;
+use enovate\rollbar\variables\Rollbar as RollbarVariable;
 use Rollbar\Payload\Level;
+use yii\base\Event;
 
 class Plugin extends \craft\base\Plugin
 {
@@ -24,6 +27,11 @@ class Plugin extends \craft\base\Plugin
             {
                 $this->rollbar->log(Level::ERROR, $event->exception->getMessage());
             }
+        });
+
+        Event::on(CraftVariable::class, CraftVariable::EVENT_DEFINE_COMPONENTS, function(DefineComponentsEvent $event)
+        {
+            $event->components['rollbar'] = new RollbarVariable();
         });
 
         parent::init();
@@ -44,7 +52,7 @@ class Plugin extends \craft\base\Plugin
 
         $settings->validate();
 
-        return Craft::$app->getView()->renderTemplate('rollbar/settings', [
+        return Craft::$app->getView()->renderTemplate('rollbar/_settings', [
             'settings'   => $settings,
             'configFile' => $configFile,
         ]);
