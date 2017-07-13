@@ -14,9 +14,6 @@ class Plugin extends \craft\base\Plugin
 {
     public $hasCpSettings = true;
 
-    /**
-     *
-     */
     public function init()
     {
         $this->setComponents([
@@ -25,7 +22,10 @@ class Plugin extends \craft\base\Plugin
 
         Event::on(ErrorHandler::class, ErrorHandler::EVENT_BEFORE_HANDLE_EXCEPTION, function(ExceptionEvent $event)
         {
-            $this->rollbar->log(Level::ERROR, $event->exception->getMessage());
+            if ($this->rollbar->shouldReport($event->exception))
+            {
+                $this->rollbar->log(Level::ERROR, $event->exception->getMessage());
+            }
         });
 
         parent::init();

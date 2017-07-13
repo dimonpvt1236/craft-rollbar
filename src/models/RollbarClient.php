@@ -3,11 +3,11 @@
 namespace enovate\rollbar\models;
 
 use Craft;
+use craft\helpers\ArrayHelper;
 use craft\helpers\UrlHelper;
 use enovate\rollbar\Plugin;
 use craft\base\Model;
 use Rollbar\Rollbar;
-use Rollbar\Payload\Level;
 
 class RollbarClient extends Model
 {
@@ -25,6 +25,35 @@ class RollbarClient extends Model
         return Rollbar::log($level, $message, $extraData);
     }
 
+    public function shouldReport($exception)
+    {
+        $ignoreCodes = ArrayHelper::toArray(Plugin::getInstance()->getSettings()->ignoreHTTPCodes);
+        $ignoreCodes = array_map('intval', $ignoreCodes);
+
+        $status = $this->getExceptionCode($exception);
+
+        return !in_array($status, $ignoreCodes);
+    }
+
+    public function getExceptionCode($exception)
+    {
+        $status = null;
+        
+        if (property_exists($exception, 'statusCode'))
+        {
+            $status = (int) $exception->statusCode;
+        }
+        else if (method_exists($exception, 'getPrevious') && $previous = $exception->getPrevious())
+        {
+            if (is_object($previous) && property_exists($previous, 'statusCode'))
+            {
+                $status = (int) $previous->statusCode;
+            }
+        }
+        
+        return $status;
+    }
+    
     private function _setConfig(array $config = [])
     {
         return array_merge([
@@ -41,7 +70,8 @@ class RollbarClient extends Model
      */
     private function _getPerson()
     {
-        $user = Craft::$app->user->getIdentity();
+        $person = [];
+        $user   = Craft::$app->user->getIdentity();
 
         if ($user)
         {
@@ -49,7 +79,7 @@ class RollbarClient extends Model
                 ? '('.$user->getFullName().')'
                 : null;
 
-            return [
+            $person = [
                 'id'       => $user->id,
                 'email'    => $user->email,
                 'username' => implode(' ', array_filter([
@@ -58,5 +88,7 @@ class RollbarClient extends Model
                 ])),
             ];
         }
+
+        return $person;
     }
 }

@@ -10,7 +10,7 @@
 
 {{ forms.textField({
     first:   true,
-    class:   configFile['accessToken'] ? 'disabled',
+    class:   configFile['accessToken'] ?? false ? 'disabled',
     label:   'Access Token'|t,
     warning: configFile['accessToken'] ?? false ? configWarning('accessToken'),
     name:    'accessToken',
@@ -21,11 +21,21 @@
 {{ forms.textField({
     first:   true,
     label:   'Client Access Token'|t,
-    class:   configFile['clientAccessToken'] ? 'disabled',
+    class:   configFile['clientAccessToken'] ?? false ? 'disabled',
     name:    'clientAccessToken',
     warning: configFile['clientAccessToken'] ?? false ? configWarning('clientAccessToken'),
     value:   settings.clientAccessToken,
     errors:  settings.getErrors('clientAccessToken'),
+}) }}
+
+{{ forms.textField({
+    first:   true,
+    label:   'Ignore Error Codes'|t,
+    class:   configFile['ignoreHTTPCodes'] ?? false ? 'disabled',
+    warning: configFile['ignoreHTTPCodes'] ?? false ? configWarning('ignoreHTTPCodes'),
+    name:    'ignoreHTTPCodes',
+    value:   settings.ignoreHTTPCodes,
+    errors:  settings.getErrors('ignoreHTTPCodes'),
 }) }}
 
 <hr>
