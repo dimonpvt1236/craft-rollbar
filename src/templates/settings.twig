@@ -1,7 +1,7 @@
 {% import '_includes/forms' as forms %}
 
 {% macro configWarning(setting, file) -%}
-    {{ "This is being overridden by the {setting} config setting in <code>config/rollbar.php</code>."|t('app', {
+    {{ "This is being set by the {setting} config setting in <code>config/rollbar.php</code>."|t('app', {
         setting: '<code>'~setting~'</code>'
     })|raw }}
 {%- endmacro %}
@@ -9,21 +9,23 @@
 {% from _self import configWarning %}
 
 {{ forms.textField({
-    first:  true,
-    label:  'Access Token'|t,
-    warning: (configFile['accessToken'] ?? false ? configWarning('accessToken')),
-    name:   'accessToken',
-    value:  settings.accessToken,
-    errors: settings.getErrors('accessToken'),
+    first:   true,
+    class:   configFile['accessToken'] ? 'disabled',
+    label:   'Access Token'|t,
+    warning: configFile['accessToken'] ?? false ? configWarning('accessToken'),
+    name:    'accessToken',
+    value:   settings.accessToken,
+    errors:  settings.getErrors('accessToken'),
 }) }}
 
 {{ forms.textField({
-    first:  true,
-    label:  'Client Access Token'|t,
-    name:   'clientAccessToken',
-    warning: (configFile['clientAccessToken'] ?? false ? configWarning('clientAccessToken')),
-    value:  settings.clientAccessToken,
-    errors: settings.getErrors('clientAccessToken'),
+    first:   true,
+    label:   'Client Access Token'|t,
+    class:   configFile['clientAccessToken'] ? 'disabled',
+    name:    'clientAccessToken',
+    warning: configFile['clientAccessToken'] ?? false ? configWarning('clientAccessToken'),
+    value:   settings.clientAccessToken,
+    errors:  settings.getErrors('clientAccessToken'),
 }) }}
 
 <hr>

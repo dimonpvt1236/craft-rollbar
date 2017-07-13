@@ -27,14 +27,11 @@ class RollbarClient extends Model
 
     private function _setConfig(array $config = [])
     {
-        $config = array_merge([
+        return array_merge([
             'access_token' => Plugin::getInstance()->getSettings()->accessToken,
             'environment'  => UrlHelper::siteUrl(),
+            'person'       => $this->_getPerson(),
         ], $config);
-
-        $config['person'] = $this->_getPerson();
-
-        return $config;
     }
 
     /**
