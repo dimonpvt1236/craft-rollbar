@@ -4,9 +4,7 @@ namespace enovate\rollbar;
 use enovate\rollbar\services\Rollbar as RollbarService;
 use Craft;
 use craft\events\ExceptionEvent;
-use craft\events\RegisterUrlRulesEvent;
 use craft\web\ErrorHandler;
-use craft\web\UrlManager;
 use yii\base\Event;
 use Rollbar\Payload\Level;
 
@@ -43,6 +41,7 @@ class Plugin extends \craft\base\Plugin
     {
         $configFile = Craft::$app->getConfig()->getConfigFromFile('rollbar');
         $settings   = $this->getSettings();
+
         $settings->validate();
 
         return Craft::$app->getView()->renderTemplate('rollbar/settings', [

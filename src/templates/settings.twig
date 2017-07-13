@@ -29,13 +29,22 @@
 }) }}
 
 {{ forms.textField({
-    first:   true,
     label:   'Ignore Error Codes'|t,
     class:   configFile['ignoreHTTPCodes'] ?? false ? 'disabled',
     warning: configFile['ignoreHTTPCodes'] ?? false ? configWarning('ignoreHTTPCodes'),
     name:    'ignoreHTTPCodes',
     value:   settings.ignoreHTTPCodes,
     errors:  settings.getErrors('ignoreHTTPCodes'),
+}) }}
+
+{{ forms.textField({
+    disabled: true,
+    static:   true,
+    label:   'Environment'|t,
+    warning: configFile['environment'] ?? false ? configWarning('environment'),
+    name:    'environment',
+    value:   settings.environment,
+    errors:  settings.getErrors('environment'),
 }) }}
 
 <hr>

@@ -4,12 +4,11 @@ namespace enovate\rollbar\models;
 
 use Craft;
 use craft\helpers\ArrayHelper;
-use craft\helpers\UrlHelper;
 use enovate\rollbar\Plugin;
 use craft\base\Model;
 use Rollbar\Rollbar;
 
-class RollbarClient extends Model
+class Client extends Model
 {
     public function __construct(array $config = [])
     {
@@ -56,9 +55,13 @@ class RollbarClient extends Model
     
     private function _setConfig(array $config = [])
     {
+        $plugin   = Plugin::getInstance();
+        /** @var Settings $settings */
+        $settings = $plugin->getSettings();
+
         return array_merge([
-            'access_token' => Plugin::getInstance()->getSettings()->accessToken,
-            'environment'  => UrlHelper::siteUrl(),
+            'access_token' => $settings->accessToken,
+            'environment'  => $settings->environment,
             'person'       => $this->_getPerson(),
         ], $config);
     }

@@ -1,26 +1,23 @@
 <?php
 namespace enovate\rollbar\services;
 
-use Craft;
-use enovate\rollbar\models\RollbarClient;
-use Rollbar\Payload\Level;
+use enovate\rollbar\models\Client;
 use yii\base\Component;
 
 class Rollbar extends Component
 {
     private $_client;
 
-    public function getClient(RollbarClient $client = null)
+    public function getClient(Client $client = null)
     {
         if (!$client)
         {
-            if (!$this->_client)
-            {
-                // Create a new RollbarClient model with the default plugin settings
-                $this->_client = new RollbarClient();
-            }
+            $client = $this->_client ? $this->_client : new Client();
+        }
 
-            $client = $this->_client;
+        if (!$this->_client)
+        {
+            $this->_client = $client;
         }
 
         return $client;
