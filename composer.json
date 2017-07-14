@@ -24,6 +24,6 @@
         "developer": "Enovate Design",
         "developerUrl": "https://www.enovate.co.uk",
         "downloadUrl": "https://gitlab.enovate.co.uk/craft-3-plugins/rollbar/repository/archive.zip?ref=master",
-        "changelogUrl": "https://gitlab.enovate.co.uk/craft-3-plugins/rollbar/blob/master/README.md"
+        "changelogUrl": "https://gitlab.enovate.co.uk/craft-3-plugins/rollbar/blob/master/CHANGELOG.md"
     }
 }
