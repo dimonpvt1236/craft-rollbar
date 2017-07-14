@@ -2,16 +2,30 @@
 namespace enovate\rollbar\models;
 
 use craft\base\Model;
+use craft\helpers\UrlHelper;
 
 class Settings extends Model
 {
     public $accessToken;
     public $clientAccessToken;
-    public $reportInDevMode            = false;
-    public $jsTracking                 = true;
-    public $captureUnhandledRejections = false;
-    public $enableCspEndpoint          = false;
-    public $ignoreHTTPCodes            = '404, 403, 503';
+    public $reporting;
+    public $jsTracking;
+    public $captureUnhandledRejections;
+    public $cspEndpoint;
+    public $ignoreHTTPCodes;
+    public $environment;
+
+    public function init()
+    {
+        $this->reporting                  = true;
+        $this->jsTracking                 = true;
+        $this->captureUnhandledRejections = false;
+        $this->cspEndpoint                = false;
+        $this->ignoreHTTPCodes            = '404, 403, 503';
+        $this->environment                = UrlHelper::siteUrl();
+
+        parent::init();
+    }
 
     /**
      * @return array
@@ -19,8 +33,9 @@ class Settings extends Model
     public function rules()
     {
         return [
-            [['accessToken', 'clientAccessToken'], 'required'],
+            [['accessToken', 'environment'], 'required'],
             [['accessToken', 'clientAccessToken'], 'string', 'length' => 32],
+            [['reporting', 'jsTracking', 'captureUnhandledRejections', 'cspEndpoint'], 'boolean'],
         ];
     }
 }
