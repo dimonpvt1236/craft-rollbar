@@ -3,7 +3,7 @@
 namespace enovate\rollbar\models;
 
 use Craft;
-use craft\helpers\ArrayHelper;
+use craft\helpers\StringHelper;
 use enovate\rollbar\Plugin;
 use craft\base\Model;
 use Rollbar\Rollbar;
@@ -35,7 +35,7 @@ class Client extends Model
             return false;
         }
 
-        $ignoreCodes = ArrayHelper::toArray($settings->ignoreHTTPCodes);
+        $ignoreCodes = StringHelper::split($settings->ignoreHTTPCodes);
         $ignoreCodes = array_map('intval', $ignoreCodes);
 
         $status = $this->getExceptionCode($exception);

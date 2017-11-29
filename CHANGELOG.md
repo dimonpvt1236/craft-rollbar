@@ -1,3 +1,9 @@
+## 0.3.1 (WIP)
+
+### Fixed
+
+* Fixed a deprecation error when splitting the `ignoreHTTPCodes` setting to an array.
+
 ## 0.3.0 - 2017-07-13
 
 ### Added
