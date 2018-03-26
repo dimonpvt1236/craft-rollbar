@@ -1,8 +1,16 @@
 ## 0.3.1 (WIP)
 
+### Changed
+
+* Various updates to support Craft 3.0.0-beta.20
+
 ### Fixed
 
 * Fixed a deprecation error when splitting the `ignoreHTTPCodes` setting to an array.
+
+### Removed
+
+* Removed the CSP features that were not Rollbar-specific.
 
 ## 0.3.0 - 2017-07-13
 

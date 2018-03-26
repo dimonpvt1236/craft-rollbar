@@ -1,29 +1,29 @@
 {
-    "name": "enovate/rollbar",
+    "name": "enovatedesign/craft-rollbar",
     "description": "Report Craft errors and exceptions to Rollbar.",
     "version": "0.3.0",
     "type": "craft-plugin",
     "minimum-stability": "dev",
     "require": {
-        "roave/security-advisories": "dev-master",
-        "craftcms/cms": "^3.0.0-beta.21",
+        "craftcms/cms": "^3.0.0-beta.20",
         "rollbar/rollbar": "^1.1"
     },
     "autoload": {
         "psr-4": {
-            "enovate\\rollbar\\": "src/"
+            "enovatedesign\\rollbar\\": "src/"
         }
     },
     "support": {
         "email": "mike.pepper@enovate.co.uk",
-        "docs": "https://gitlab.enovate.co.uk/craft-3-plugins/rollbar/blob/master/README.md"
+        "issues": "https://github.com/enovatedesign/craft-rollbar/issues"
     },
     "extra": {
-        "handle": "rollbar",
         "name": "Rollbar",
+        "handle": "rollbar",
         "developer": "Enovate Design",
         "developerUrl": "https://www.enovate.co.uk",
-        "downloadUrl": "https://gitlab.enovate.co.uk/craft-3-plugins/rollbar/repository/archive.zip?ref=master",
-        "changelogUrl": "https://gitlab.enovate.co.uk/craft-3-plugins/rollbar/blob/master/CHANGELOG.md"
+        "hasCpSettings": true,
+        "hasCpSection": false,
+        "changelogUrl": "https://raw.githubusercontent.com/enovatedesign/craft-rollbar/v1/CHANGELOG.md"
     }
 }

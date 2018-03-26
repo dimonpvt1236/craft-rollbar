@@ -1,10 +1,10 @@
 <?php
 
-namespace enovate\rollbar\models;
+namespace enovatedesign\rollbar\models;
 
 use Craft;
 use craft\helpers\StringHelper;
-use enovate\rollbar\Plugin;
+use enovatedesign\rollbar\Plugin;
 use craft\base\Model;
 use Rollbar\Rollbar;
 
@@ -26,9 +26,10 @@ class Client extends Model
 
     public function shouldReport($exception)
     {
-        $plugin      = Plugin::getInstance();
+        $plugin = Plugin::getInstance();
+
         /** @var Settings $settings */
-        $settings    = $plugin->getSettings();
+        $settings = $plugin->getSettings();
 
         if (!$settings->reporting)
         {

@@ -1,9 +1,9 @@
 <?php
-namespace enovate\rollbar\services;
+namespace enovatedesign\rollbar\services;
 
 use Craft;
-use enovate\rollbar\models\Client;
-use enovate\rollbar\Plugin;
+use enovatedesign\rollbar\models\Client;
+use enovatedesign\rollbar\Plugin;
 use yii\base\Component;
 
 class Rollbar extends Component
@@ -37,7 +37,7 @@ class Rollbar extends Component
 
     public function getJsTrackingCode()
     {
-        $settings                   = Plugin::getInstance()->getSettings();
+        $settings                   = Rollbar::getInstance()->getSettings();
         $clientAccessToken          = $settings->clientAccessToken;
         $captureUnhandledRejections = $settings->captureUnhandledRejections;
         $environment                = $settings->environment;
@@ -83,33 +83,4 @@ class Rollbar extends Component
         </script>
         ';
     }
-
-    public function setCspHeader()
-    {
-        $config = Craft::$app->getConfig()->getConfigFromFile('content-security-policy');
-
-        if (!$policies = $config['policies'])
-        {
-            return [];
-        }
-
-        $reportOnly = (isset($config['reportOnly']) && $config['reportOnly']);
-
-        $csp = [];
-
-        foreach ($policies as $directive => $values)
-        {
-            $csp[] = $directive.' '.implode(' ', $values);
-        }
-
-        $header = "Content-Security-Policy";
-
-        if ($reportOnly)
-        {
-            $header .= "-Report-Only";
-        }
-
-        return Craft::$app->getResponse()->headers->add($header, implode('; ', $csp));
-    }
-
 }

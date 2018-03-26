@@ -20,7 +20,7 @@
 {{ forms.textField({
     first:   true,
     class:   configFile['accessToken'] ?? false ? 'disabled',
-    label:   'Access Token'|t,
+    label:   'Access Token'|t('rollbar'),
     warning: configFile['accessToken'] ?? false ? configWarning('accessToken'),
     name:    'accessToken',
     value:   settings.accessToken,
@@ -29,7 +29,7 @@
 }) }}
 
 {{ forms.textField({
-    label:   'Client Access Token'|t,
+    label:   'Client Access Token'|t('rollbar'),
     class:   configFile['clientAccessToken'] ?? false ? 'disabled',
     name:    'clientAccessToken',
     warning: configFile['clientAccessToken'] ?? false ? configWarning('clientAccessToken'),
@@ -38,7 +38,7 @@
 }) }}
 
 {{ forms.textField({
-    label:   'Ignore Error Codes'|t,
+    label:   'Ignore Error Codes'|t('rollbar'),
     class:   configFile['ignoreHTTPCodes'] ?? false ? 'disabled',
     warning: configFile['ignoreHTTPCodes'] ?? false ? configWarning('ignoreHTTPCodes'),
     name:    'ignoreHTTPCodes',
@@ -49,7 +49,7 @@
 {{ forms.textField({
     disabled: true,
     static:   true,
-    label:    'Environment'|t,
+    label:    'Environment'|t('rollbar'),
     warning:  configFile['environment'] ?? false ? configWarning('environment'),
     name:     'environment',
     value:    settings.environment,
@@ -59,7 +59,7 @@
 <hr>
 
 {{ forms.lightswitchField({
-    label:    'Track JavaScript Errors'|t,
+    label:    'Track JavaScript Errors'|t('rollbar'),
     disabled: configFile['jsTracking'] is defined,
     class:    configFile['jsTracking'] is defined and not configFile.jsTracking ? 'disabled',
     name:     'jsTracking',
@@ -68,21 +68,10 @@
     errors:   settings.getErrors('jsTracking'),
 }) }}
 
-{{ forms.lightswitchField({
-    label:    'Enable CSP Endpoint'|t,
-    instructions: '<a href="{url}">view CSP config</a>.'|t({ url: url('rollbar/csp') })|raw,
-    disabled: configFile['cspEndpoint'] is defined,
-    class:    configFile['cspEndpoint'] is defined and not configFile.cspEndpoint ? 'disabled',
-    name:     'cspEndpoint',
-    warning:  configFile['cspEndpoint'] is defined ? configWarning('cspEndpoint') : null,
-    on:       settings.cspEndpoint,
-    errors:   settings.getErrors('cspEndpoint'),
-}) }}
-
 <hr>
 
 <div class="buttons">
     <div id="test" class="btn formsubmit" data-action="rollbar/settings/test">
-        {{ 'Test'|t }}
+        {{ 'Test'|t('rollbar') }}
     </div>
 </div>

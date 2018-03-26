@@ -1,9 +1,9 @@
 <?php
-namespace enovate\rollbar\controllers;
+namespace enovatedesign\rollbar\controllers;
 
 use Craft;
-use enovate\rollbar\models\Client;
-use enovate\rollbar\models\Settings;
+use enovatedesign\rollbar\models\Client;
+use enovatedesign\rollbar\models\Settings;
 use craft\web\Controller;
 use Rollbar\Payload\Level;
 use Rollbar\Response;

@@ -1,9 +1,9 @@
 <?php
-namespace enovate\rollbar\variables;
+namespace enovatedesign\rollbar\variables;
 
 use Craft;
-use enovate\rollbar\Plugin;
-use enovate\rollbar\services\Rollbar as RollbarService;
+use enovatedesign\rollbar\Plugin;
+use enovatedesign\rollbar\services\Rollbar as RollbarService;
 
 class Rollbar
 {
@@ -12,7 +12,7 @@ class Rollbar
 
     public function __construct()
     {
-        /** @var Plugin $plugin */
+        /** @var Rollbar $plugin */
         $plugin = Plugin::getInstance();
 
         $this->_service = $plugin->rollbar;
@@ -23,10 +23,5 @@ class Rollbar
         $content = $this->_service->getJsTrackingCode();
 
         return $content ? new \Twig_Markup($content, Craft::$app->charset) : '';
-    }
-
-    public function setCspHeader()
-    {
-        $this->_service->setCspHeader();
     }
 }
