@@ -37,7 +37,7 @@ class Rollbar extends Component
 
     public function getJsTrackingCode()
     {
-        $settings                   = Rollbar::getInstance()->getSettings();
+        $settings                   = Plugin::getInstance()->getSettings();
         $clientAccessToken          = $settings->clientAccessToken;
         $captureUnhandledRejections = $settings->captureUnhandledRejections;
         $environment                = $settings->environment;
