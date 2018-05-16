@@ -1,8 +1,8 @@
-## 0.3.1 (WIP)
+## 0.4.0 - 2018-05-16
 
 ### Changed
 
-* Various updates to support Craft 3.0.0-beta.20
+* Various updates to support Craft 3.0.0
 
 ### Fixed
 
