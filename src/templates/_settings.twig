@@ -38,6 +38,18 @@
 }) }}
 
 {{ forms.textField({
+    disabled: true,
+    static:   true,
+    label:    'Environment'|t('rollbar'),
+    warning:  configFile['environment'] ?? false ? configWarning('environment'),
+    name:     'environment',
+    value:    settings.environment,
+    errors:   settings.getErrors('environment'),
+}) }}
+
+<hr>
+
+{{ forms.textField({
     label:   'Ignore Error Codes'|t('rollbar'),
     class:   configFile['ignoreHTTPCodes'] ?? false ? 'disabled',
     warning: configFile['ignoreHTTPCodes'] ?? false ? configWarning('ignoreHTTPCodes'),
@@ -46,14 +58,14 @@
     errors:  settings.getErrors('ignoreHTTPCodes'),
 }) }}
 
-{{ forms.textField({
-    disabled: true,
-    static:   true,
-    label:    'Environment'|t('rollbar'),
-    warning:  configFile['environment'] ?? false ? configWarning('environment'),
-    name:     'environment',
-    value:    settings.environment,
-    errors:   settings.getErrors('environment'),
+{{ forms.textareaField({
+    label: 'Ignore Rules'|t('rollbar'),
+    class: configFile['ignoreRules'] ?? false ? 'disabled',
+    warning: configFile['ignoreRules'] ?? false ? configWarning('ignoreRules'),
+    name: 'ignoreRules',
+    rows: 4,
+    value: settings.ignoreRules|join("\n"),
+    errors: settings.getErrors('ignoreRules'),
 }) }}
 
 <hr>

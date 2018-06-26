@@ -3,15 +3,13 @@ namespace enovatedesign\rollbar;
 
 use enovatedesign\rollbar\services\Rollbar as RollbarService;
 use enovatedesign\rollbar\variables\Rollbar as RollbarVariable;
-
-use Rollbar\Payload\Level;
-
 use Craft;
 use craft\base\Plugin as BasePlugin;
 use craft\events\ExceptionEvent;
 use craft\web\ErrorHandler;
 use craft\web\twig\variables\CraftVariable;
 use yii\base\Event;
+use Rollbar\Payload\Level;
 
 /**
  * Class Rollbar
@@ -39,8 +37,7 @@ class Plugin extends BasePlugin
 
         Event::on(ErrorHandler::class, ErrorHandler::EVENT_BEFORE_HANDLE_EXCEPTION, function(ExceptionEvent $event)
         {
-            if ($this->rollbar->shouldReport($event->exception))
-            {
+            if ($this->rollbar->shouldReport($event->exception)) {
                 $this->rollbar->log(Level::ERROR, $event->exception->getMessage());
             }
         });

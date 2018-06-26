@@ -1,10 +1,9 @@
 <?php
-
 namespace enovatedesign\rollbar\models;
 
+use enovatedesign\rollbar\Plugin;
 use Craft;
 use craft\helpers\StringHelper;
-use enovatedesign\rollbar\Plugin;
 use craft\base\Model;
 use Rollbar\Rollbar;
 
@@ -24,15 +23,14 @@ class Client extends Model
         return Rollbar::log($level, $message, $extraData);
     }
 
-    public function shouldReport($exception)
+    public function shouldReport(\Exception $exception)
     {
         $plugin = Plugin::getInstance();
 
         /** @var Settings $settings */
         $settings = $plugin->getSettings();
 
-        if (!$settings->reporting)
-        {
+        if (!$settings->reporting) {
             return false;
         }
 
@@ -41,21 +39,32 @@ class Client extends Model
 
         $status = $this->getExceptionCode($exception);
 
-        return !in_array($status, $ignoreCodes);
+        if (in_array($status, $ignoreCodes)) {
+            return false;
+        }
+        
+        // Check ignore rules
+        $message = $exception->getMessage();
+
+        $pluginRules = explode("\n", Plugin::$plugin->getSettings()->ignoreRules);
+
+        foreach ($pluginRules as $rule) {
+            if (preg_match("|" . preg_quote($rule, "|") . "|", $message) != 0) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public function getExceptionCode($exception)
     {
         $status = null;
         
-        if (property_exists($exception, 'statusCode'))
-        {
+        if (property_exists($exception, 'statusCode')) {
             $status = (int) $exception->statusCode;
-        }
-        else if (method_exists($exception, 'getPrevious') && $previous = $exception->getPrevious())
-        {
-            if (is_object($previous) && property_exists($previous, 'statusCode'))
-            {
+        } else if (method_exists($exception, 'getPrevious') && $previous = $exception->getPrevious()) {
+            if (is_object($previous) && property_exists($previous, 'statusCode')) {
                 $status = (int) $previous->statusCode;
             }
         }
@@ -65,14 +74,14 @@ class Client extends Model
     
     private function _setConfig(array $config = [])
     {
-        $plugin   = Plugin::getInstance();
+        $plugin = Plugin::getInstance();
         /** @var Settings $settings */
         $settings = $plugin->getSettings();
 
         return array_merge([
             'access_token' => $settings->accessToken,
-            'environment'  => $settings->environment,
-            'person'       => $this->_getPerson(),
+            'environment' => $settings->environment,
+            'person' => $this->_getPerson(),
         ], $config);
     }
 
@@ -84,17 +93,16 @@ class Client extends Model
     private function _getPerson()
     {
         $person = [];
-        $user   = Craft::$app->user->getIdentity();
+        $user = Craft::$app->user->getIdentity();
 
-        if ($user)
-        {
+        if ($user) {
             $fullName = ($user->getFullName() && $user->getFullName() !== $user->username)
                 ? '('.$user->getFullName().')'
                 : null;
 
             $person = [
-                'id'       => $user->id,
-                'email'    => $user->email,
+                'id' => $user->id,
+                'email' => $user->email,
                 'username' => implode(' ', array_filter([
                     $user->username,
                     $fullName,
