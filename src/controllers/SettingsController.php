@@ -1,10 +1,11 @@
 <?php
 namespace enovatedesign\rollbar\controllers;
 
-use Craft;
 use enovatedesign\rollbar\models\Client;
 use enovatedesign\rollbar\models\Settings;
+use Craft;
 use craft\web\Controller;
+use enovatedesign\rollbar\Plugin;
 use Rollbar\Payload\Level;
 use Rollbar\Response;
 
@@ -28,12 +29,11 @@ class SettingsController extends Controller
         $sessionService = Craft::$app->getSession();
         
         $settings = new Settings();
-        $settings->accessToken       = $requestService->getBodyParam('settings.accessToken');
+        $settings->accessToken = $requestService->getBodyParam('settings.accessToken');
         $settings->clientAccessToken = $requestService->getBodyParam('settings.clientAccessToken');
-        $settings->reporting         = true;
+        $settings->reporting = true;
 
-        if ($settings->validate())
-        {
+        if ($settings->validate()) {
             $client = new Client([
                 'access_token' => $settings->accessToken,
             ]);
@@ -41,21 +41,16 @@ class SettingsController extends Controller
             /** @var Response $response */
             $response = $client->log(Level::INFO, Craft::t('rollbar', 'This is a test message'));
             
-            if ($response->wasSuccessful())
-            {
+            if ($response->wasSuccessful()) {
                 // Assume that these will also be successful
                 $client->log(Level::WARNING, Craft::t('rollbar', 'This is a test warning'));
                 $client->log(Level::ERROR,   Craft::t('rollbar', 'This is a test error'));
 
                 $sessionService->setNotice(Craft::t('rollbar', 'Test message posted successfully'));
-            }
-            else
-            {
+            } else {
                 $sessionService->setError(Craft::t('rollbar', 'Test message was not posted successfully'));
             }
-        }
-        else
-        {
+        } else {
             $sessionService->setError(Craft::t('rollbar', 'Your settings are invalid'));
         }
 

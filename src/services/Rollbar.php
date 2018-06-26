@@ -12,13 +12,11 @@ class Rollbar extends Component
 
     public function getClient(Client $client = null)
     {
-        if (!$client)
-        {
+        if (!$client) {
             $client = $this->_client ? $this->_client : new Client();
         }
 
-        if (!$this->_client)
-        {
+        if (!$this->_client) {
             $this->_client = $client;
         }
 
@@ -37,28 +35,21 @@ class Rollbar extends Component
 
     public function getJsTrackingCode()
     {
-        $settings                   = Plugin::getInstance()->getSettings();
-        $clientAccessToken          = $settings->clientAccessToken;
+        $settings = Plugin::getInstance()->getSettings();
+        $clientAccessToken = $settings->clientAccessToken;
         $captureUnhandledRejections = $settings->captureUnhandledRejections;
-        $environment                = $settings->environment;
+        $environment = $settings->environment;
 
-        if (!$settings->jsTracking || !$clientAccessToken)
-        {
+        if (!$settings->jsTracking || !$clientAccessToken) {
             return '';
         }
 
-        try
-        {
+        try {
             $commit = trim(exec('git log --pretty="%H" -nl HEAD'));
-        }
-        catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             $commit = time();
-        }
-        finally
-        {
-            if (!$commit)
-            {
+        } finally {
+            if (!$commit) {
                 $commit = time();
             }
         }

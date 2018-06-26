@@ -5,6 +5,7 @@ return [
     'Test' => '',
     'Client Access Token' => '',
     'Ignore Error Codes' => '',
+    'This is a test message' => '',
     'This is a test warning' => '',
     'This is a test error' => '',
     'Environment' => '',

@@ -12,15 +12,22 @@ class Settings extends Model
     public $jsTracking;
     public $captureUnhandledRejections;
     public $ignoreHTTPCodes;
+    public $ignoreRules;
     public $environment;
 
     public function init()
     {
-        $this->reporting                  = true;
-        $this->jsTracking                 = true;
+        // Defaults
+        $this->reporting = true;
+        $this->jsTracking = true;
         $this->captureUnhandledRejections = false;
-        $this->ignoreHTTPCodes            = '404, 403, 503';
-        $this->environment                = UrlHelper::siteUrl();
+        $this->environment = UrlHelper::siteUrl();
+        $this->ignoreHTTPCodes = '404, 403, 503';
+        $this->ignoreRules = [
+            'Unable to verify your data submission.',
+            'Invalid verification code',
+            'test message',
+        ];
 
         parent::init();
     }
