@@ -49,6 +49,7 @@ class Client extends Model
         $pluginRules = explode("\n", Plugin::$plugin->getSettings()->ignoreRules);
 
         foreach ($pluginRules as $rule) {
+            $rule = trim($rule);
             if (preg_match("|" . preg_quote($rule, "|") . "|", $message) != 0) {
                 return false;
             }
