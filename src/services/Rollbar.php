@@ -39,7 +39,7 @@ class Rollbar extends Component
         $clientAccessToken = $settings->clientAccessToken;
         $captureUnhandledRejections = $settings->captureUnhandledRejections;
         $environment = $settings->environment;
-        $rollbarJsVersion = $settimgs->rollbarJsVersion;
+        $rollbarJsVersion = $settings->rollbarJsVersion;
 
         if (!$settings->jsTracking || !$clientAccessToken) {
             return '';
