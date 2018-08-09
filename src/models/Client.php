@@ -82,6 +82,11 @@ class Client extends Model
         return array_merge([
             'access_token' => $settings->accessToken,
             'environment' => $settings->environment,
+            'capture_email' => $settings->captureEmail,
+            'capture_username' => $settings->captureUsername,
+            'include_error_code_context' => true,
+            'include_exception_code_context' => true,
+            'capture_ip' => ($settings->captureIp === 'anonymize') ? $settings->captureIp : (bool) $settings->captureIp,
             'person' => $this->_getPerson(),
         ], $config);
     }
@@ -97,18 +102,27 @@ class Client extends Model
         $user = Craft::$app->user->getIdentity();
 
         if ($user) {
-            $fullName = ($user->getFullName() && $user->getFullName() !== $user->username)
-                ? '('.$user->getFullName().')'
-                : null;
+            /** @var Settings $settings */
+            $settings = Plugin::getInstance()->getSettings();
 
             $person = [
                 'id' => $user->id,
-                'email' => $user->email,
-                'username' => implode(' ', array_filter([
+            ];
+
+            if ($settings->captureEmail) {
+                $person['email'] = $user->email;
+            }
+
+            if ($settings->captureUsername) {
+                $fullName = ($user->getFullName() && $user->getFullName() !== $user->username)
+                    ? '(' . $user->getFullName() . ')'
+                    : null;
+
+                $person['username'] = implode(' ', array_filter([
                     $user->username,
                     $fullName,
-                ])),
-            ];
+                ]));
+            }
         }
 
         return $person;

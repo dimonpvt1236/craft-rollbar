@@ -1,6 +1,7 @@
 <?php
 namespace enovatedesign\rollbar;
 
+use craft\events\TemplateEvent;
 use enovatedesign\rollbar\services\Rollbar as RollbarService;
 use enovatedesign\rollbar\variables\Rollbar as RollbarVariable;
 use Craft;
@@ -8,6 +9,7 @@ use craft\base\Plugin as BasePlugin;
 use craft\events\ExceptionEvent;
 use craft\web\ErrorHandler;
 use craft\web\twig\variables\CraftVariable;
+use craft\web\View;
 use yii\base\Event;
 use Rollbar\Payload\Level;
 
@@ -47,6 +49,20 @@ class Plugin extends BasePlugin
             /** @var RollbarVariable $variable */
             $variable = $event->sender;
             $variable->set('rollbar', RollbarVariable::class);
+        });
+
+        Event::on(View::class, View::EVENT_BEFORE_RENDER_TEMPLATE, function(TemplateEvent $e) {
+            if (
+                $e->template === 'settings/plugins/_settings' &&
+                $e->variables['plugin'] === $this
+            ) {
+                $e->variables['tabs'] = [
+                    ['label' => Craft::t('rollbar', 'General'), 'url' => '#settings-tab-general'],
+                    ['label' => Craft::t('rollbar', 'Privacy'), 'url' => '#settings-tab-privacy'],
+                    ['label' => Craft::t('rollbar', 'Server'), 'url' => '#settings-tab-server'],
+                    ['label' => Craft::t('rollbar', 'Client'), 'url' => '#settings-tab-client'],
+                ];
+            }
         });
     }
 
