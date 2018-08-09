@@ -1,3 +1,20 @@
+## 0.6.0 - 2018-06-26
+
+### Added
+
+* Added privacy/GDPR-related plugin settings.
+* Rollbar.js version can be set in the plugin settings.
+
+### Improved
+
+* Updated `rollbar-php` and `rollbar.js`.
+
+## 0.5.0 - 2018-06-26
+
+### Added
+
+* Rules can be added to filter out unwanted error messages from being reported.
+
 ## 0.4.0 - 2018-05-16
 
 ### Changed
