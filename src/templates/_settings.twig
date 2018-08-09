@@ -17,70 +17,120 @@
     <hr>
 {% endif %}
 
-{{ forms.textField({
-    first:   true,
-    class:   configFile['accessToken'] ?? false ? 'disabled',
-    label:   'Access Token'|t('rollbar'),
-    warning: configFile['accessToken'] ?? false ? configWarning('accessToken'),
-    name:    'accessToken',
-    value:   settings.accessToken,
-    required: true,
-    errors:  settings.getErrors('accessToken'),
-}) }}
+<div id="rollbar-settings">
+    <div id="tab-general">
+        {{ forms.textField({
+            first:   true,
+            class:   configFile['accessToken'] ?? false ? 'disabled',
+            label:   'Access token'|t('rollbar'),
+            warning: configFile['accessToken'] ?? false ? configWarning('accessToken'),
+            name:    'accessToken',
+            value:   settings.accessToken,
+            required: true,
+            errors:  settings.getErrors('accessToken'),
+        }) }}
 
-{{ forms.textField({
-    label:   'Client Access Token'|t('rollbar'),
-    class:   configFile['clientAccessToken'] ?? false ? 'disabled',
-    name:    'clientAccessToken',
-    warning: configFile['clientAccessToken'] ?? false ? configWarning('clientAccessToken'),
-    value:   settings.clientAccessToken,
-    errors:  settings.getErrors('clientAccessToken'),
-}) }}
+        {{ forms.textField({
+            label:   'Client access token'|t('rollbar'),
+            class:   configFile['clientAccessToken'] ?? false ? 'disabled',
+            name:    'clientAccessToken',
+            warning: configFile['clientAccessToken'] ?? false ? configWarning('clientAccessToken'),
+            value:   settings.clientAccessToken,
+            errors:  settings.getErrors('clientAccessToken'),
+        }) }}
 
-{{ forms.textField({
-    disabled: true,
-    static:   true,
-    label:    'Environment'|t('rollbar'),
-    warning:  configFile['environment'] ?? false ? configWarning('environment'),
-    name:     'environment',
-    value:    settings.environment,
-    errors:   settings.getErrors('environment'),
-}) }}
+        {{ forms.textField({
+            disabled: true,
+            static:   true,
+            label:    'Environment'|t('rollbar'),
+            warning:  configFile['environment'] ?? false ? configWarning('environment'),
+            name:     'environment',
+            value:    settings.environment,
+            errors:   settings.getErrors('environment'),
+        }) }}
+    </div>
 
-<hr>
+    <div id="tab-privacy" class="hidden">
+        {{ forms.selectField({
+            label:   'Capture IP address'|t('rollbar'),
+            class:   configFile['captureIp'] ?? false ? 'disabled',
+            warning: configFile['captureIp'] ?? false ? configWarning('captureIp'),
+            name:    'captureIp',
+            value:   settings.captureIp,
+            options: [
+                { label: 'Anonymize'|t('rollbar'), value: 'anonymize' },
+                { label: 'No'|t('rollbar'), value: 'false' },
+                { label: 'Yes'|t('rollbar'), value: 'true' },
+            ],
+            errors:  settings.getErrors('captureIp'),
+        }) }}
 
-{{ forms.textField({
-    label:   'Ignore Error Codes'|t('rollbar'),
-    class:   configFile['ignoreHTTPCodes'] ?? false ? 'disabled',
-    warning: configFile['ignoreHTTPCodes'] ?? false ? configWarning('ignoreHTTPCodes'),
-    name:    'ignoreHTTPCodes',
-    value:   settings.ignoreHTTPCodes,
-    errors:  settings.getErrors('ignoreHTTPCodes'),
-}) }}
+        {{ forms.lightswitchField({
+            label:    'Capture username'|t('rollbar'),
+            disabled: configFile['captureUsername'] is defined,
+            class:    configFile['captureUsername'] is defined and not configFile.captureUsername ? 'disabled',
+            name:     'captureUsername',
+            warning:  configFile['captureUsername'] is defined ? configWarning('captureUsername') : null,
+            on:       settings.captureUsername,
+            errors:   settings.getErrors('captureUsername'),
+        }) }}
 
-{{ forms.textareaField({
-    label: 'Ignore Rules'|t('rollbar'),
-    class: configFile['ignoreRules'] ?? false ? 'disabled',
-    warning: configFile['ignoreRules'] ?? false ? configWarning('ignoreRules'),
-    name: 'ignoreRules',
-    rows: 4,
-    value: settings.ignoreRules|join("\n"),
-    errors: settings.getErrors('ignoreRules'),
-}) }}
+        {{ forms.lightswitchField({
+            label:    'Capture email'|t('rollbar'),
+            disabled: configFile['captureEmail'] is defined,
+            class:    configFile['captureEmail'] is defined and not configFile.captureEmail ? 'disabled',
+            name:     'captureEmail',
+            warning:  configFile['captureEmail'] is defined ? configWarning('captureEmail') : null,
+            on:       settings.captureEmail,
+            errors:   settings.getErrors('captureEmail'),
+        }) }}
+    </div>
 
-<hr>
+    <div id="tab-server" class="hidden">
+        {{ forms.textField({
+            label:   'Ignore error codes'|t('rollbar'),
+            class:   configFile['ignoreHTTPCodes'] ?? false ? 'disabled',
+            warning: configFile['ignoreHTTPCodes'] ?? false ? configWarning('ignoreHTTPCodes'),
+            name:    'ignoreHTTPCodes',
+            value:   settings.ignoreHTTPCodes,
+            errors:  settings.getErrors('ignoreHTTPCodes'),
+        }) }}
 
-{{ forms.lightswitchField({
-    label:    'Track JavaScript Errors'|t('rollbar'),
-    disabled: configFile['jsTracking'] is defined,
-    class:    configFile['jsTracking'] is defined and not configFile.jsTracking ? 'disabled',
-    name:     'jsTracking',
-    warning:  configFile['jsTracking'] is defined ? configWarning('jsTracking') : null,
-    on:       settings.jsTracking,
-    errors:   settings.getErrors('jsTracking'),
-}) }}
+        {{ forms.textareaField({
+            label: 'Ignore Rules'|t('rollbar'),
+            class: configFile['ignoreRules'] ?? false ? 'disabled',
+            warning: configFile['ignoreRules'] ?? false ? configWarning('ignoreRules'),
+            name: 'ignoreRules',
+            rows: 4,
+            value: settings.ignoreRules|join("\n"),
+            errors: settings.getErrors('ignoreRules'),
+        }) }}
+    </div>
 
-<hr>
+    <div id="tab-client" class="hidden">
+
+        {{ forms.textField({
+            label: 'Rollbar.js version'|t('rollbar'),
+            disabled: configFile['rollbarJsVersion'] is defined,
+            class: configFile['rollbarJsVersion'] is defined and not configFile.rollbarJsVersion ? 'disabled',
+            name: 'rollbarJsVersion',
+            warning: configFile['rollbarJsVersion'] is defined ? configWarning('rollbarJsVersion') : null,
+            value: settings.rollbarJsVersion,
+            errors: settings.getErrors('rollbarJsVersion'),
+        }) }}
+
+        {{ forms.lightswitchField({
+            label:    'Track JavaScript errors'|t('rollbar'),
+            disabled: configFile['jsTracking'] is defined,
+            class:    configFile['jsTracking'] is defined and not configFile.jsTracking ? 'disabled',
+            name:     'jsTracking',
+            warning:  configFile['jsTracking'] is defined ? configWarning('jsTracking') : null,
+            on:       settings.jsTracking,
+            errors:   settings.getErrors('jsTracking'),
+        }) }}
+    </div>
+
+</div>
 
 <div class="buttons">
     <div id="test" class="btn formsubmit" data-action="rollbar/settings/test">

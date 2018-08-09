@@ -14,12 +14,20 @@ class Settings extends Model
     public $ignoreHTTPCodes;
     public $ignoreRules;
     public $environment;
+    public $rollbarJsVersion;
+    public $captureIp;
+    public $captureUsername;
+    public $captureEmail;
 
     public function init()
     {
         // Defaults
         $this->reporting = true;
         $this->jsTracking = true;
+        $this->rollbarJsVersion = '2.4.0';
+        $this->captureIp = 'anonymize';
+        $this->captureUsername = false;
+        $this->captureEmail = false;
         $this->captureUnhandledRejections = false;
         $this->environment = UrlHelper::siteUrl();
         $this->ignoreHTTPCodes = '404, 403, 503';
@@ -40,7 +48,7 @@ class Settings extends Model
         return [
             [['accessToken', 'environment'], 'required'],
             [['accessToken', 'clientAccessToken'], 'string', 'length' => 32],
-            [['reporting', 'jsTracking', 'captureUnhandledRejections'], 'boolean'],
+            [['reporting', 'jsTracking', 'captureUnhandledRejections', 'captureEmail', 'captureUsername'], 'boolean'],
         ];
     }
 }
