@@ -6,6 +6,7 @@ use Craft;
 use craft\helpers\StringHelper;
 use craft\base\Model;
 use Rollbar\Rollbar;
+use Throwable;
 
 class Client extends Model
 {
@@ -23,7 +24,7 @@ class Client extends Model
         return Rollbar::log($level, $message, $extraData);
     }
 
-    public function shouldReport(\Exception $exception)
+    public function shouldReport(Throwable $throwable)
     {
         $plugin = Plugin::getInstance();
 
@@ -37,14 +38,14 @@ class Client extends Model
         $ignoreCodes = StringHelper::split($settings->ignoreHTTPCodes);
         $ignoreCodes = array_map('intval', $ignoreCodes);
 
-        $status = $this->getExceptionCode($exception);
+        $status = $this->getStatusCode($throwable);
 
         if (in_array($status, $ignoreCodes)) {
             return false;
         }
         
         // Check ignore rules
-        $message = $exception->getMessage();
+        $message = $throwable->getMessage();
 
         $pluginRules = explode("\n", Plugin::$plugin->getSettings()->ignoreRules);
 
@@ -58,13 +59,13 @@ class Client extends Model
         return true;
     }
 
-    public function getExceptionCode($exception)
+    public function getStatusCode($throwable)
     {
         $status = null;
         
-        if (property_exists($exception, 'statusCode')) {
-            $status = (int) $exception->statusCode;
-        } else if (method_exists($exception, 'getPrevious') && $previous = $exception->getPrevious()) {
+        if (property_exists($throwable, 'statusCode')) {
+            $status = (int) $throwable->statusCode;
+        } else if (method_exists($throwable, 'getPrevious') && $previous = $throwable->getPrevious()) {
             if (is_object($previous) && property_exists($previous, 'statusCode')) {
                 $status = (int) $previous->statusCode;
             }
