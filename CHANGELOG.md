@@ -1,3 +1,9 @@
+## 1.0.0 - 2018-09-10
+
+## Fixed
+
+* Type-hint for `Throwable` not `Exception` when checking whether an error or exception should be reported
+
 ## 0.6.1 - 2018-06-26
 
 ### Added
