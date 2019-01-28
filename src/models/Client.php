@@ -2,10 +2,10 @@
 namespace enovatedesign\rollbar\models;
 
 use enovatedesign\rollbar\Plugin;
+use Rollbar\Rollbar;
 use Craft;
 use craft\helpers\StringHelper;
 use craft\base\Model;
-use Rollbar\Rollbar;
 use Throwable;
 
 class Client extends Model
@@ -35,7 +35,10 @@ class Client extends Model
             return false;
         }
 
-        $ignoreCodes = StringHelper::split($settings->ignoreHTTPCodes);
+        if (!\is_array($settings->ignoreHTTPCodes)) {
+            $ignoreCodes = StringHelper::split($settings->ignoreHTTPCodes);
+        }
+
         $ignoreCodes = array_map('intval', $ignoreCodes);
 
         $status = $this->getStatusCode($throwable);

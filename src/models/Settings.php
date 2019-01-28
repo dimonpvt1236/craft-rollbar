@@ -6,7 +6,10 @@ use craft\helpers\UrlHelper;
 
 class Settings extends Model
 {
+    /** @var string The Rollbar access token */
     public $accessToken;
+
+
     public $clientAccessToken;
     public $reporting;
     public $jsTracking;
