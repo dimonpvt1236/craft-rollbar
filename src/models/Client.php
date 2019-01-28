@@ -35,22 +35,22 @@ class Client extends Model
             return false;
         }
 
-        if (!\is_array($settings->ignoreHTTPCodes)) {
-            $ignoreCodes = StringHelper::split($settings->ignoreHTTPCodes);
+        $ignoreCodes = $settings->ignoreHTTPCodes;
+        if (!\is_array($ignoreCodes)) {
+            $ignoreCodes = StringHelper::split($ignoreCodes);
         }
-
         $ignoreCodes = array_map('intval', $ignoreCodes);
 
         $status = $this->getStatusCode($throwable);
 
-        if (in_array($status, $ignoreCodes)) {
+        if (\in_array($status, $ignoreCodes)) {
             return false;
         }
         
         // Check ignore rules
         $message = $throwable->getMessage();
-        $pluginRules = Plugin::$plugin->getSettings()->ignoreRules);
 
+        $pluginRules = Plugin::$plugin->getSettings()->ignoreRules;
         if (!\is_array($pluginRules)) {
             $pluginRules = explode("\n", $pluginRules);
         }
