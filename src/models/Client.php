@@ -49,8 +49,11 @@ class Client extends Model
         
         // Check ignore rules
         $message = $throwable->getMessage();
+        $pluginRules = Plugin::$plugin->getSettings()->ignoreRules);
 
-        $pluginRules = explode("\n", Plugin::$plugin->getSettings()->ignoreRules);
+        if (!\is_array($pluginRules)) {
+            $pluginRules = explode("\n", $pluginRules);
+        }
 
         foreach ($pluginRules as $rule) {
             $rule = trim($rule);
