@@ -13,6 +13,8 @@ class SettingsController extends Controller
 {
     public function init()
     {
+        parent::init();
+
         // All settings actions require an admin
         $this->requireAdmin();
     }

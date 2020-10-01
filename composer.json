@@ -1,7 +1,7 @@
 {
     "name": "enovatedesign/craft-rollbar",
     "description": "Report Craft errors and exceptions to Rollbar.",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "type": "craft-plugin",
     "minimum-stability": "dev",
     "require": {
