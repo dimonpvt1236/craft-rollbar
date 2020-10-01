@@ -1,3 +1,9 @@
+## 1.0.1 - 2020-10-01
+
+## Fixed
+
+* Added `parent::init()` call to SettingsController to resolve issues with request as string on Rollbar test.
+
 ## 1.0.0 - 2018-09-10
 
 ## Fixed
