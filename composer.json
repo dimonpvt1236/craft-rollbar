@@ -1,12 +1,12 @@
 {
     "name": "enovatedesign/craft-rollbar",
     "description": "Report Craft errors and exceptions to Rollbar.",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "type": "craft-plugin",
     "minimum-stability": "dev",
     "require": {
         "craftcms/cms": "^3.0.0",
-        "rollbar/rollbar": "^1.1"
+        "rollbar/rollbar": "^2"
     },
     "autoload": {
         "psr-4": {
@@ -14,7 +14,7 @@
         }
     },
     "support": {
-        "email": "mike.pepper@enovate.co.uk",
+        "email": "support@enovate.co.uk",
         "issues": "https://github.com/enovatedesign/craft-rollbar/issues"
     },
     "extra": {
