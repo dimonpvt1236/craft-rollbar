@@ -24,7 +24,7 @@ class Settings extends Model
         // Defaults
         $this->reporting = true;
         $this->jsTracking = true;
-        $this->rollbarJsVersion = '2.4.0';
+        $this->rollbarJsVersion = '2.21.0';
         $this->captureIp = 'anonymize';
         $this->captureUsername = false;
         $this->captureEmail = false;
