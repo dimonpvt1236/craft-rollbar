@@ -1,3 +1,10 @@
+## 1.0.3 - 2021-06-07
+
+## Changed
+
+* Send full exception stack trace to rollbar
+
+
 ## 1.0.2 - 2021-05-24
 
 ## Changed
