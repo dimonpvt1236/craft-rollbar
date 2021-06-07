@@ -6,6 +6,7 @@ use enovatedesign\rollbar\models\Settings;
 use Craft;
 use craft\web\Controller;
 use enovatedesign\rollbar\Plugin;
+use Exception;
 use Rollbar\Payload\Level;
 use Rollbar\Response;
 
@@ -24,6 +25,7 @@ class SettingsController extends Controller
      */
     public function actionTest()
     {
+    
         $this->requirePostRequest();
 
         // Create a Settings model populated with the post data
