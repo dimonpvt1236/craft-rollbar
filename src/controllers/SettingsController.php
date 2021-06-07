@@ -25,7 +25,7 @@ class SettingsController extends Controller
      */
     public function actionTest()
     {
-    
+       
         $this->requirePostRequest();
 
         // Create a Settings model populated with the post data
