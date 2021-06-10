@@ -1,3 +1,18 @@
+## 1.0.3 - 2021-06-07
+
+## Changed
+
+* Send full exception stack trace to rollbar
+
+
+## 1.0.2 - 2021-05-24
+
+## Changed
+
+* Updated client-side JS library code and default version
+* Updated Rollbar PHP library version
+* Changed support email address
+
 ## 1.0.1 - 2020-10-01
 
 ## Fixed

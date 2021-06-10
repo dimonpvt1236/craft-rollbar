@@ -10,6 +10,7 @@ use craft\events\ExceptionEvent;
 use craft\web\ErrorHandler;
 use craft\web\twig\variables\CraftVariable;
 use craft\web\View;
+use Exception;
 use yii\base\Event;
 use Rollbar\Payload\Level;
 
@@ -40,7 +41,7 @@ class Plugin extends BasePlugin
         Event::on(ErrorHandler::class, ErrorHandler::EVENT_BEFORE_HANDLE_EXCEPTION, function(ExceptionEvent $event)
         {
             if ($this->rollbar->shouldReport($event->exception)) {
-                $this->rollbar->log(Level::ERROR, $event->exception->getMessage());
+                $this->rollbar->log(Level::ERROR, $event->exception);
             }
         });
 
